@@ -8,42 +8,35 @@
 import SwiftUI
 
 struct ListRowView: View {
-    var list: String
-    @State var isCompleted: Bool = false
+    let task: TodoModel
     var body: some View {
         
-        HStack(alignment: .top, spacing: 12){
-            Button {
-                completeTask()
-            } label: {
-                Image(systemName: isCompleted ? "checkmark.circle.fill" : "checkmark.circle")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 24)
-                    .foregroundColor(isCompleted ? .green : .red)
-            }
-            Text(list)
-                .font(.title2)
+        HStack(alignment: .center, spacing: 12){
+            Image(systemName: task.status ? "checkmark.circle.fill" : "checkmark.circle")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 24)
+                .foregroundColor(task.status ? .green : .red)
+            Text(task.task)
+                .font(.headline)
             Spacer()
         }
-        .padding()
-        .background(Color.white)
-        .cornerRadius(10)
-        .shadow(radius: 4)
+      
         
-    }
-    
-    func completeTask(){
-        if isCompleted == true{
-            isCompleted = false
-        } else {
-            isCompleted = true
-        }
     }
 }
 
 struct ListRowView_Previews: PreviewProvider {
+    
+    static var task1 = TodoModel(task: "test", status: false)
+    static var task2 = TodoModel(task: "test", status: false)
+
     static var previews: some View {
-        ListRowView(list: "your list", isCompleted: false)
+        Group{
+            ListRowView(task: task1)
+            ListRowView(task: task2)
+        }
+        .previewLayout(.sizeThatFits)
+        
     }
 }

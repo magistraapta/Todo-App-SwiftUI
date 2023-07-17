@@ -8,13 +8,19 @@
 import SwiftUI
 
 struct AddTaskView: View {
+    @Environment(\.dismiss) var dismiss
     @State var text: String = " "
+    @EnvironmentObject var task: TodoViewModel
     var body: some View {
         VStack{
             TextArea($text, placeholder: "what's on your thoughts?")
             Spacer()
+            
+
             Button {
-                //code
+                saveTask()
+                text = ""
+                dismiss()
             } label: {
                 HStack{
                     Spacer()
@@ -33,10 +39,17 @@ struct AddTaskView: View {
 
         }
     }
+    func saveTask(){
+        task.addTask(input: text)
+    }
 }
 
 struct AddTaskView_Previews: PreviewProvider {
     static var previews: some View {
-        AddTaskView()
+        NavigationView{
+            AddTaskView()
+        }
+        .environmentObject(TodoViewModel())
+        
     }
 }
